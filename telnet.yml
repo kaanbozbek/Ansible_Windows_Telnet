@@ -1,0 +1,19 @@
+- name: Telnet
+  hosts: "{{ Server_Type }}"
+  order: sorted
+  serial: 1
+  become: yes
+  become_method: runas
+  collections:
+    - ansible.windows
+  tasks:
+    - name: Copy file to server
+      win_copy:
+        src: ./telnet.ps1
+        dest: C:\telnet.ps1
+    - name: Run remote PowerShell Script to Create Site on IIS
+      win_command: powershell.exe -ExecutionPolicy ByPass -File C:/telnet.ps1 {{ site }} {{ port }}
+
+
+
+
